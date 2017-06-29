@@ -19,8 +19,10 @@ best <- function(state, outcome) {
     ## ... agd split/get data for desired State ...
     outcome_data <- as.data.frame(split(outcome_data, outcome_data$state)[state])
     names(outcome_data)<-c("hospital","state","outcome")
-    outcome_data <- outcome_data[order(outcome_data$hospital,decreasing=FALSE),]
-    outcome_data <- outcome_data[order(outcome_data$outcome,decreasing=FALSE),]
+
+    ## .. order by outcome (small = best to larger = worst) and hospital (alphabetic) name
+    outcome_data <- outcome_data[order(outcome_data$outcome,outcome_data$hospital,decreasing=FALSE),]
+
     ## Return hospital name in that state with lowest 30-day death rate
     outcome_data$hospital[1]
 }
@@ -48,13 +50,12 @@ rankhospital <- function(state, outcome, num = "best") {
     outcome_data <- as.data.frame(split(outcome_data, outcome_data$state)[state])
     ## ... set names (again)
     names(outcome_data)<-c("hospital","state","outcome")
-    ## ... sort by Hospital Name ...
-    outcome_data <- outcome_data[order(outcome_data$hospital,decreasing=FALSE),]
-    ## ... then sort ascending by outcome ...
-    outcome_data <- outcome_data[order(outcome_data$outcome,decreasing=FALSE),]
+
     ## ... remoe NA using complete cases
     outcome_data <- outcome_data[complete.cases(outcome_data),]
-    
+    ## .. order by outcome (small = best to larger = worst) and hospital (alphabetic) name
+    outcome_data <- outcome_data[order(outcome_data$outcome,outcome_data$hospital,decreasing=FALSE),]
+
     ## Return hospital name in that state with the given rank (num)
     ## 30-day death rate
     if (num == "best") { num <- 1 }
