@@ -63,9 +63,32 @@ rankhospital <- function(state, outcome, num = "best") {
 }
 
 rankall <- function(outcome, num = "best") {
+    ## Check that "outcome" is valid using a "named vector" for each data possible data colum 
+    outcomes <- c("heart attack"=11, "heart failure"=17, "pneumonia"=23)
+    ## if !(Valid Outcome) then stop("invalid outcome")
+    if (is.na(outcomes[outcome])) { stop("invalid outcome") }
+
     ## Read outcome data
-    ## Check that outcome and num are valid
-    ## For each state, find the hospital of the given rank
-    ## Return a data frame with the hospital names and the
-    ## (abbreviated) state name
+    data <- read.csv("outcome-of-care-measures.csv", na.strings = "Not Available", stringsAsFactors = FALSE)
+
+    ## Fetch only the needed columns, including selected outcome column
+    outcome_data <- data[,c(2,7,outcomes[outcome])] 
+    ## ... set simple names
+    names(outcome_data)<-c("hospital","state","outcome")
+    ## ... get rid of NA values
+    outcome_data <- outcome_data[complete.cases(outcome_data),]
+    ## ... sort the data ...
+    outcome_data <- outcome_data[order(outcome_data$state,outcome_data$outcome,outcome_data$hospital,decreasing=FALSE),]
+    ## ... break the data by state
+    outcomelist <- split(outcome_data, outcome_data$state)
+
+    ## ... asses which "num" we will use, note that in case is "worst" it needs to be based
+    ## ... upon each "state list" lenght...
+    hosplist <- lapply(outcomelist, function(x) {
+        if (num == "best")  {index = 1} 
+        else if (num == "worst") {index = nrow(x)}
+        else {index <- num }
+        x[index,1] 
+    })
+    hosplist <- data.frame(hospital = unlist(hosplist), state = names(hosplist))
 }
