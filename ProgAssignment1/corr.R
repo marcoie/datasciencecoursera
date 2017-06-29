@@ -1,4 +1,4 @@
-cr?debug
+
 corr <- function (directory, thresold = 0){
     ## 'directory' is a character vector of lenght 1 indicating
     ## the location of csv files
