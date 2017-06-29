@@ -93,3 +93,14 @@ rankall <- function(outcome, num = "best") {
     })
     hosplist <- data.frame(hospital = unlist(hosplist), state = names(hosplist))
 }
+
+plotoutcome <- function(outcome="heart attack") {
+    ## Check that "outcome" is valid using a "named vector" for each data possible data colum 
+    outcomes <- c("heart attack"=11, "heart failure"=17, "pneumonia"=23)
+    ## if !(Valid Outcome) then stop("invalid outcome")
+    if (is.na(outcomes[outcome])) { stop("invalid outcome") }
+    ## read the data
+    data <- read.csv("outcome-of-care-measures.csv", na.strings = "Not Available", stringsAsFactors = FALSE)
+    outcome_data <- data[,c(2,7,outcomes[outcome])] 
+    hist(outcome_data[,3],main=paste("Histogram of", outcome), xlab = paste(outcome))
+}
