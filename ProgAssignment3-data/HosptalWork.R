@@ -104,3 +104,7 @@ plotoutcome <- function(outcome="heart attack") {
     outcome_data <- data[,c(2,7,outcomes[outcome])] 
     hist(outcome_data[,3],main=paste("Histogram of", outcome), xlab = paste(outcome))
 }
+
+## sample uses (note subset funtion use)
+r <- rankall("heart failure", 10)
+c <- as.character(subset(r, state == "NV")$hospital)
