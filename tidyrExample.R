@@ -1,4 +1,8 @@
-R
+library(readr)
+library(tidyr)
+library(dplyr)
+
+res <- gather(students2, sex_class, count, - grade)
 
 # Repeat your calls to gather() and separate(), but this time
 # use the %>% operator to chain the commands together without
@@ -14,6 +18,7 @@ R
 # the right. Therefore, you OMIT THE FIRST ARGUMENT to each
 # function.
 #
+
 students2 %>%
   gather( sex_class, count, -grade) %>%
   separate(sex_class , c("sex", "class")) %>%
@@ -101,18 +106,49 @@ students3 %>%
 students3 %>%
     gather(class, grade, class1:class5, na.rm = TRUE) %>%
     spread( test, grade) %>%
+    mutate(class = parse_number(class)) %>% ## remove the "class" .. 
     print
+
+# Add a call to unique() below, which will remove
+# duplicate rows from student_info.
+#
+# Like with the call to the print() function below,
+# you can omit the parentheses after the function name.
+# This is a nice feature of %>% that applies when
+# there are no additional arguments to specify.
+student_info <- students4 %>%
+    select(id, name, sex) %>%
+    unique() %>%
+    print
+
+# Accomplish the following three goals:
+#
+# 1. select() all columns that do NOT contain the word "total",
+# since if we have the male and female data, we can always
+# recreate the total count in a separate column, if we want it.
+# Hint: Use the contains() function, which you'll
+# find detailed in 'Special functions' section of ?select.
+#
+# 2. gather() all columns EXCEPT score_range, using
+# key = part_sex and value = count.
+#
+# 3. separate() part_sex into two separate variables (columns),
+# called "part" and "sex", respectively. You may need to check
+# the 'Examples' section of ?separate to remember how the 'into'
+# argument should be phrased.
+#
 # Append two more function calls to accomplish the following:
 #
-# 1. Use group_by() (from dplyr) to group the data by part and
+# 4. Use group_by() (from dplyr) to group the data by part and
 # sex, in that order.
 #
-# 2. Use mutate to add two new columns, whose values will be
+# 5. Use mutate to add two new columns, whose values will be
 # automatically computed group-by-group:
 #
 #   * total = sum(count)
 #   * prop = count / total
 #
+
 sat %>%
     select(-contains("total")) %>%
     gather(part_sex, count, -score_range) %>%
@@ -120,4 +156,5 @@ sat %>%
     group_by(part, sex) %>%
     mutate(total = sum(count),
            prop = count / total
-    ) %>% print
+    ) %>% 
+    print
