@@ -42,3 +42,4 @@ names(selected_set) <- gsub("mean","Mean",names(selected_set), fixed = TRUE)
 selected_tbl <- as_tibble(selected_set)
 
 new_tbl <- selected_tbl %>% group_by(subject_id, activity_id) %>% summarise_all(funs(mean, "mean",mean(.,na.rm=TRUE)))
+write.csv(new_tbl, file = "new_tidy_dataset.csv")
