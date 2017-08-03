@@ -1,5 +1,6 @@
 ---
 title: "Read Me"
+output: html_notebook
 ---
 
 ##Abstract
