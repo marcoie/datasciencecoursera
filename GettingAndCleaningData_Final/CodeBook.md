@@ -1,45 +1,107 @@
-Human Activity Recognition Using Smartphones Dataset Version 1.0 (Reviewed)
-================
+Code Book
+=========
 
-CodeBook Review
----------------
+This is a codebook for a derived data set from [Human Activity
+Recognition Using Smartphones Dataset Version
+1.0](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
 
-This is review of the original Data Set Codebook **features\_info.txt** and **features.txt**. Original **Train** and **Test** sets were combined together in one single set. Subject Id as well as Activity Id were added as the first two columns of new set. Activity Id is ket a numeric value to be interpreted as pr **activity\_labels.txt**.
+The derived data Set will Contain a sumarized version from both Train
+and Test sets together, that includes The SUbject Id, the Activity
+Description and the Averages of the Standard Deviation and Mean based
+measures from original dataset after grouping all individual test by
+Subject and Activity.
 
-New Derived Dataset
--------------------
+Basic Set Information
+---------------------
 
-New **new\_tidy\_dataset.csv** data set, CSV coded, as been derived for all original Mean and Standar Deviation measurements, and for each the Mean has benn computed grouped by **Subject Id** and **Activity Id**.
+The Dimensions of the resulting set is:
 
-\[1\] "subject\_id" "activity\_id" "tBodyAccStdX\_mean"
-\[4\] "tBodyAccStdY\_mean" "tBodyAccStdZ\_mean" "tGravityAccStdX\_mean"
-\[7\] "tGravityAccStdY\_mean" "tGravityAccStdZ\_mean" "tBodyAccJerkStdX\_mean"
-\[10\] "tBodyAccJerkStdY\_mean" "tBodyAccJerkStdZ\_mean" "tBodyGyroStdX\_mean"
-\[13\] "tBodyGyroStdY\_mean" "tBodyGyroStdZ\_mean" "tBodyGyroJerkStdX\_mean"
-\[16\] "tBodyGyroJerkStdY\_mean" "tBodyGyroJerkStdZ\_mean" "tBodyAccMagStd\_mean"
-\[19\] "tGravityAccMagStd\_mean" "tBodyAccJerkMagStd\_mean" "tBodyGyroMagStd\_mean"
-\[22\] "tBodyGyroJerkMagStd\_mean" "fBodyAccStdX\_mean" "fBodyAccStdY\_mean"
-\[25\] "fBodyAccStdZ\_mean" "fBodyAccJerkStdX\_mean" "fBodyAccJerkStdY\_mean"
-\[28\] "fBodyAccJerkStdZ\_mean" "fBodyGyroStdX\_mean" "fBodyGyroStdY\_mean"
-\[31\] "fBodyGyroStdZ\_mean" "fBodyAccMagStd\_mean" "fBodyBodyAccJerkMagStd\_mean"
-\[34\] "fBodyBodyGyroMagStd\_mean" "fBodyBodyGyroJerkMagStd\_mean" "tBodyAccMeanX\_mean"
-\[37\] "tBodyAccMeanY\_mean" "tBodyAccMeanZ\_mean" "tGravityAccMeanX\_mean"
-\[40\] "tGravityAccMeanY\_mean" "tGravityAccMeanZ\_mean" "tBodyAccJerkMeanX\_mean"
-\[43\] "tBodyAccJerkMeanY\_mean" "tBodyAccJerkMeanZ\_mean" "tBodyGyroMeanX\_mean"
-\[46\] "tBodyGyroMeanY\_mean" "tBodyGyroMeanZ\_mean" "tBodyGyroJerkMeanX\_mean"
-\[49\] "tBodyGyroJerkMeanY\_mean" "tBodyGyroJerkMeanZ\_mean" "tBodyAccMagMean\_mean"
-\[52\] "tGravityAccMagMean\_mean" "tBodyAccJerkMagMean\_mean" "tBodyGyroMagMean\_mean"
-\[55\] "tBodyGyroJerkMagMean\_mean" "fBodyAccMeanX\_mean" "fBodyAccMeanY\_mean"
-\[58\] "fBodyAccMeanZ\_mean" "fBodyAccMeanFreqX\_mean" "fBodyAccMeanFreqY\_mean"
-\[61\] "fBodyAccMeanFreqZ\_mean" "fBodyAccJerkMeanX\_mean" "fBodyAccJerkMeanY\_mean"
-\[64\] "fBodyAccJerkMeanZ\_mean" "fBodyAccJerkMeanFreqX\_mean" "fBodyAccJerkMeanFreqY\_mean"
-\[67\] "fBodyAccJerkMeanFreqZ\_mean" "fBodyGyroMeanX\_mean" "fBodyGyroMeanY\_mean"
-\[70\] "fBodyGyroMeanZ\_mean" "fBodyGyroMeanFreqX\_mean" "fBodyGyroMeanFreqY\_mean"
-\[73\] "fBodyGyroMeanFreqZ\_mean" "fBodyAccMagMean\_mean" "fBodyAccMagMeanFreq\_mean"
-\[76\] "fBodyBodyAccJerkMagMean\_mean" "fBodyBodyAccJerkMagMeanFreq\_mean" "fBodyBodyGyroMagMean\_mean"
-\[79\] "fBodyBodyGyroMagMeanFreq\_mean" "fBodyBodyGyroJerkMagMean\_mean" "fBodyBodyGyroJerkMagMeanFreq\_mean"
+    ## [1] "[180 x 81]"
 
-New Derived Data Set - Summary
-------------------------------
+Variables Present
+-----------------
 
-You can find here the summary of new data set:
+Allvariables are of type double, with the excetion of Subject\_ID that
+is Integer and Activity\_Description that is a character string:
+
+    ##  [1] "subject_id"                           
+    ##  [2] "activity_name"                        
+    ##  [3] "TimeBodyAcc_mean_X_mean"              
+    ##  [4] "TimeBodyAcc_mean_Y_mean"              
+    ##  [5] "TimeBodyAcc_mean_Z_mean"              
+    ##  [6] "TimeGravityAcc_mean_X_mean"           
+    ##  [7] "TimeGravityAcc_mean_Y_mean"           
+    ##  [8] "TimeGravityAcc_mean_Z_mean"           
+    ##  [9] "TimeBodyAccJerk_mean_X_mean"          
+    ## [10] "TimeBodyAccJerk_mean_Y_mean"          
+    ## [11] "TimeBodyAccJerk_mean_Z_mean"          
+    ## [12] "TimeBodyGyro_mean_X_mean"             
+    ## [13] "TimeBodyGyro_mean_Y_mean"             
+    ## [14] "TimeBodyGyro_mean_Z_mean"             
+    ## [15] "TimeBodyGyroJerk_mean_X_mean"         
+    ## [16] "TimeBodyGyroJerk_mean_Y_mean"         
+    ## [17] "TimeBodyGyroJerk_mean_Z_mean"         
+    ## [18] "TimeBodyAccMag_mean_mean"             
+    ## [19] "TimeGravityAccMag_mean_mean"          
+    ## [20] "TimeBodyAccJerkMag_mean_mean"         
+    ## [21] "TimeBodyGyroMag_mean_mean"            
+    ## [22] "TimeBodyGyroJerkMag_mean_mean"        
+    ## [23] "FreqBodyAcc_mean_X_mean"              
+    ## [24] "FreqBodyAcc_mean_Y_mean"              
+    ## [25] "FreqBodyAcc_mean_Z_mean"              
+    ## [26] "FreqBodyAcc_meanFreq_X_mean"          
+    ## [27] "FreqBodyAcc_meanFreq_Y_mean"          
+    ## [28] "FreqBodyAcc_meanFreq_Z_mean"          
+    ## [29] "FreqBodyAccJerk_mean_X_mean"          
+    ## [30] "FreqBodyAccJerk_mean_Y_mean"          
+    ## [31] "FreqBodyAccJerk_mean_Z_mean"          
+    ## [32] "FreqBodyAccJerk_meanFreq_X_mean"      
+    ## [33] "FreqBodyAccJerk_meanFreq_Y_mean"      
+    ## [34] "FreqBodyAccJerk_meanFreq_Z_mean"      
+    ## [35] "FreqBodyGyro_mean_X_mean"             
+    ## [36] "FreqBodyGyro_mean_Y_mean"             
+    ## [37] "FreqBodyGyro_mean_Z_mean"             
+    ## [38] "FreqBodyGyro_meanFreq_X_mean"         
+    ## [39] "FreqBodyGyro_meanFreq_Y_mean"         
+    ## [40] "FreqBodyGyro_meanFreq_Z_mean"         
+    ## [41] "FreqBodyAccMag_mean_mean"             
+    ## [42] "FreqBodyAccMag_meanFreq_mean"         
+    ## [43] "FreqBodyBodyAccJerkMag_mean_mean"     
+    ## [44] "FreqBodyBodyAccJerkMag_meanFreq_mean" 
+    ## [45] "FreqBodyBodyGyroMag_mean_mean"        
+    ## [46] "FreqBodyBodyGyroMag_meanFreq_mean"    
+    ## [47] "FreqBodyBodyGyroJerkMag_mean_mean"    
+    ## [48] "FreqBodyBodyGyroJerkMag_meanFreq_mean"
+    ## [49] "TimeBodyAcc_std_X_mean"               
+    ## [50] "TimeBodyAcc_std_Y_mean"               
+    ## [51] "TimeBodyAcc_std_Z_mean"               
+    ## [52] "TimeGravityAcc_std_X_mean"            
+    ## [53] "TimeGravityAcc_std_Y_mean"            
+    ## [54] "TimeGravityAcc_std_Z_mean"            
+    ## [55] "TimeBodyAccJerk_std_X_mean"           
+    ## [56] "TimeBodyAccJerk_std_Y_mean"           
+    ## [57] "TimeBodyAccJerk_std_Z_mean"           
+    ## [58] "TimeBodyGyro_std_X_mean"              
+    ## [59] "TimeBodyGyro_std_Y_mean"              
+    ## [60] "TimeBodyGyro_std_Z_mean"              
+    ## [61] "TimeBodyGyroJerk_std_X_mean"          
+    ## [62] "TimeBodyGyroJerk_std_Y_mean"          
+    ## [63] "TimeBodyGyroJerk_std_Z_mean"          
+    ## [64] "TimeBodyAccMag_std_mean"              
+    ## [65] "TimeGravityAccMag_std_mean"           
+    ## [66] "TimeBodyAccJerkMag_std_mean"          
+    ## [67] "TimeBodyGyroMag_std_mean"             
+    ## [68] "TimeBodyGyroJerkMag_std_mean"         
+    ## [69] "FreqBodyAcc_std_X_mean"               
+    ## [70] "FreqBodyAcc_std_Y_mean"               
+    ## [71] "FreqBodyAcc_std_Z_mean"               
+    ## [72] "FreqBodyAccJerk_std_X_mean"           
+    ## [73] "FreqBodyAccJerk_std_Y_mean"           
+    ## [74] "FreqBodyAccJerk_std_Z_mean"           
+    ## [75] "FreqBodyGyro_std_X_mean"              
+    ## [76] "FreqBodyGyro_std_Y_mean"              
+    ## [77] "FreqBodyGyro_std_Z_mean"              
+    ## [78] "FreqBodyAccMag_std_mean"              
+    ## [79] "FreqBodyBodyAccJerkMag_std_mean"      
+    ## [80] "FreqBodyBodyGyroMag_std_mean"         
+    ## [81] "FreqBodyBodyGyroJerkMag_std_mean"
