@@ -37,4 +37,3 @@ Once Train and Test sets are ready, we combine the two by row (rowbind) and then
 Once this is done, we group the new set by Subject ID and Activity Description and compute the *Average* for each of the remaining columns selected.
 
 And we write the result to a  **new_tidy_dataset.txt** file.
-
