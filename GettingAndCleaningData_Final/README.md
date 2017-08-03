@@ -1,7 +1,4 @@
----
-title: "Read Me"
-output: html_notebook
----
+#Read Me
 
 ##Abstract
 This is a derived data set from **Human Activity Recognition Using Smartphones Dataset Version 1.0** by
