@@ -1,45 +1,51 @@
 library(readr)
 library(tidyr)
 library(dplyr)
-#Merges the training and the test sets to create one data set.
-activity_labels <- read.table("./UCI HAR Dataset/activity_labels.txt")
-names(activity_labels) <- c("activity_id","activity_name")
-features <- read.table("./UCI HAR Dataset/features.txt")
-#get descriptive activity names to name the activities in the data set
-names(features) <- c("feat_id","feature_name")
 
-x_train <- read.table("./UCI HAR Dataset/train/X_train.txt")
-y_train <- read.table("./UCI HAR Dataset/train/Y_train.txt")
-s_train <- read.table("./UCI HAR Dataset/train/subject_train.txt")
+#Read the base "activity" and "features" data so we can prepare "better labels" and use "activity name" instead of just the number
+activity_labels <- read.table("./UCI HAR Dataset/activity_labels.txt", col.names = c("activity_id","activity_name"))
+features <- read.table("./UCI HAR Dataset/features.txt", col.names = c("feat_id","feature_name"))
 
-names(s_train) <- c("subject_id")
-#Uses descriptive activity names to name the activities in the data set
-names(x_train) <- gsub(")","",gsub("(",".",gsub("-","",gsub(",","-",gsub("()","",features$feature_name, fixed = TRUE), fixed = TRUE),fixed = TRUE),fixed = TRUE),fixed = TRUE)
-names(y_train) <- c("activity_id")
+#Fix the Names of Features - including removal of "(" ")" "," and other symbols
+features$feature_name <- gsub('-', '_', features$feature_name, fixed = TRUE) #Set underscore as base multi word separator
+features$feature_name <- gsub('^t', 'Time', features$feature_name) #Label Time based features
+features$feature_name <- gsub('^f', 'Freq', features$feature_name) #Label Freq based feaures
+features$feature_name <- gsub('()', '', features$feature_name, fixed = TRUE) ##remove parenthesis
+features$feature_name <- gsub(',', '-', features$feature_name, fixed = TRUE) ##rchange ,
+##Specific rename for the angle features that had a complex nesting of parenthesis
+    features$feature_name <- gsub('angle(tBodyAccMean-gravity)','angleOftBodyAccMean-gravity', features$feature_name, fixed = TRUE)
+    features$feature_name <- gsub('angle(tBodyAccJerkMean)-gravityMean)','angleOftBodyAccJerkMean-gravityMean', features$feature_name, fixed = TRUE)
+    features$feature_name <- gsub('angle(tBodyGyroMean-gravityMean)','angleOftBodyGyroMean-gravityMean', features$feature_name, fixed = TRUE)
+    features$feature_name <- gsub('angle(tBodyGyroJerkMean-gravityMean)','angleOftBodyGyroJerkMean-gravityMean', features$feature_name, fixed = TRUE)
+    features$feature_name <- gsub('angle(X-gravityMean)','angleOfX-gravityMean', features$feature_name, fixed = TRUE)
+    features$feature_name <- gsub('angle(Y-gravityMean)','angleOfY-gravityMean', features$feature_name, fixed = TRUE)
+    features$feature_name <- gsub('angle(Z-gravityMean)','angleOfZ-gravityMean', features$feature_name, fixed = TRUE)
 
+
+##Read the Data for train set
+x_train <- read.table("./UCI HAR Dataset/train/X_train.txt", col.names = features$feature_name)
+y_train <- read.table("./UCI HAR Dataset/train/Y_train.txt", col.names = c("activity_id")) %>% 
+    left_join(activity_labels,by = "activity_id") %>% 
+    select(activity_name) ##get JUST activity labels
+s_train <- read.table("./UCI HAR Dataset/train/subject_train.txt", col.names = c("subject_id"))
+
+#combine Subject, Activity, and Sensor Data
 full_train <- cbind(s_train, y_train, x_train)
 
-x_test <- read.table("./UCI HAR Dataset/test/X_test.txt")
-y_test <- read.table("./UCI HAR Dataset/test/Y_test.txt")
-s_test <- read.table("./UCI HAR Dataset/test/subject_test.txt")
+x_test <- read.table("./UCI HAR Dataset/test/X_test.txt", col.names = features$feature_name)
+y_test <- read.table("./UCI HAR Dataset/test/Y_test.txt", col.names = c("activity_id")) %>% 
+    left_join(activity_labels,by = "activity_id") %>% 
+    select(activity_name) ##get activity and labels
+s_test <- read.table("./UCI HAR Dataset/test/subject_test.txt", col.names = c("subject_id"))
 
-names(s_test) <- c("subject_id")
-#Uses descriptive activity names to name the activities in the data set
-names(x_test) <- gsub(")","",gsub("(",".",gsub("-","",gsub(",","-",gsub("()","",features$feature_name, fixed = TRUE), fixed = TRUE),fixed = TRUE),fixed = TRUE),fixed = TRUE)
-names(y_test) <- c("activity_id")
-
+#combine Subject, Activity, and Sensor Data
 full_test <- cbind(s_test, y_test, x_test)
 
 experiment_data <- rbind(full_train, full_test)
 
-#Extracts only the measurements on the mean and standard deviation for each measurement
-selected_set <- cbind(experiment_data[,1:2], experiment_data[,grepl("std",names(experiment_data))], experiment_data[,grepl("mean",names(experiment_data))])
-#Appropriately labels the data set with descriptive variable names
-names(selected_set) <- gsub("std","Std",names(selected_set), fixed = TRUE)
-names(selected_set) <- gsub("mean","Mean",names(selected_set), fixed = TRUE)
+#Extracts only the measurements of mean and std for each experiment line
+selected_set <- as_tibble(cbind(experiment_data[,1:2], experiment_data[,grepl("mean",names(experiment_data))], experiment_data[,grepl("std",names(experiment_data))]))
 
-#from the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subjec
-selected_tbl <- as_tibble(selected_set)
-
-new_tbl <- selected_tbl %>% group_by(subject_id, activity_id) %>% summarise_all(funs(mean, "mean",mean(.,na.rm=TRUE)))
-write.csv(new_tbl, file = "new_tidy_dataset.csv")
+new_tidy_tbl <- selected_set %>% group_by(subject_id, activity_name) %>% summarise_all(funs(mean, "mean",mean(.,na.rm=TRUE)))
+##write.csv(new_tbl, file = "new_tidy_dataset.csv")
+write.table(new_tidy_tbl, file = "new_tidy_dataset.txt", row.names = FALSE)
