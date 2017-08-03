@@ -1,3 +1,4 @@
+##load needed libraries
 library(readr)
 library(tidyr)
 library(dplyr)
@@ -47,4 +48,4 @@ selected_set <- as_tibble(cbind(experiment_data[,1:2], experiment_data[,grepl("m
 ##Create New TIDY set with "means" computed and grouped by Subject and activity and write to a new TEXT File
 new_tidy_tbl <- selected_set %>% group_by(subject_id, activity_name) %>% summarise_all(funs(mean, "mean",mean(.,na.rm=TRUE)))
 write.table(new_tidy_tbl, file = "new_tidy_dataset.txt", row.names = FALSE)
-##write.csv(new_tbl, file = "new_tidy_dataset.csv")
+
