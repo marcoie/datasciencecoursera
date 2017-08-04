@@ -4,8 +4,8 @@ library(tidyr)
 library(dplyr)
 
 #Read the base "activity" and "features" data so we can prepare "better labels" and use "activity name" instead of just the number
-activity_labels <- read.table("./UCI HAR Dataset/activity_labels.txt", col.names = c("activity_id","activity_name"))
-features <- read.table("./UCI HAR Dataset/features.txt", col.names = c("feat_id","feature_name"))
+activity_labels <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/activity_labels.txt", col.names = c("activity_id","activity_name"))
+features <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/features.txt", col.names = c("feat_id","feature_name"))
 
 #Fix the Names of Features - including removal of "(" ")" "," and other symbols
 features$feature_name <- gsub('-', '_', features$feature_name, fixed = TRUE) #Set underscore as base multi word separator
@@ -24,19 +24,19 @@ features$feature_name <- gsub(',', '-', features$feature_name, fixed = TRUE) ##r
 
 
 ##Read the Data for train set - set proper column names and combine Subject, Activity and Sensor Data in 1 DF
-x_train <- read.table("./UCI HAR Dataset/train/X_train.txt", col.names = features$feature_name)
-y_train <- read.table("./UCI HAR Dataset/train/Y_train.txt", col.names = c("activity_id")) %>% 
+x_train <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/train/X_train.txt", col.names = features$feature_name)
+y_train <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/train/Y_train.txt", col.names = c("activity_id")) %>% 
     left_join(activity_labels,by = "activity_id") %>% 
     select(activity_name) ##get JUST activity labels
-s_train <- read.table("./UCI HAR Dataset/train/subject_train.txt", col.names = c("subject_id"))
+s_train <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/train/subject_train.txt", col.names = c("subject_id"))
 full_train <- cbind(s_train, y_train, x_train)
 
 ##Read the Data for test set - set proper column names and combine Subject, Activity and Sensor Data in 1 DF
-x_test <- read.table("./UCI HAR Dataset/test/X_test.txt", col.names = features$feature_name)
-y_test <- read.table("./UCI HAR Dataset/test/Y_test.txt", col.names = c("activity_id")) %>% 
+x_test <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/test/X_test.txt", col.names = features$feature_name)
+y_test <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/test/Y_test.txt", col.names = c("activity_id")) %>% 
     left_join(activity_labels,by = "activity_id") %>% 
     select(activity_name) ##get activity and labels
-s_test <- read.table("./UCI HAR Dataset/test/subject_test.txt", col.names = c("subject_id"))
+s_test <- read.table("/Users/marcoie/Projects/WorkingArea/UCI HAR Dataset/test/subject_test.txt", col.names = c("subject_id"))
 full_test <- cbind(s_test, y_test, x_test)
 
 #Assembly ONE single experiment dataset

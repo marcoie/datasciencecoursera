@@ -1,18 +1,18 @@
 fileurl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
-download.file(fileurl,destfile = "./ddata/idaho.csv",method = "curl")
-idahoData <- read.csv("./ddata/idaho.csv")
+download.file(fileurl,destfile = "/Users/marcoie/Projects/WorkingArea/ddata/idaho.csv",method = "curl")
+idahoData <- read.csv("/Users/marcoie/Projects/WorkingArea/ddata/idaho.csv")
 names(idahoData)
 tolower(names(idahoData))
 names(idahoData) <- tolower(names(idahoData))
 strsplit(names(idahoData),"wgtp") # search for 123 element
 
 fileurl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv"
-download.file(fileurl,destfile = "./ddata/gdp190.csv",method = "curl")
-gdpData <- read.csv("./ddata/gdp190.csv")
+download.file(fileurl,destfile = "/Users/marcoie/Projects/WorkingArea/ddata/gdp190.csv",method = "curl")
+gdpData <- read.csv("/Users/marcoie/Projects/WorkingArea/ddata/gdp190.csv")
 gdpData <- mutate(gdpData,X.4 = as.double(gsub(",","",gsub(" ","",X.4))))
 mean(gdpData$X.4[1:190],na.rm=TRUE)
 
-eduData <- read.csv("./ddata/EDSTATS_Country.csv")
+eduData <- read.csv("/Users/marcoie/Projects/WorkingArea/ddata/EDSTATS_Country.csv")
 eduTBL <- as_tibble(eduData)
 
 names(gdpTBL)[1] <- "CountryCode"

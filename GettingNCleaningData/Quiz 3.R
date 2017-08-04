@@ -1,20 +1,20 @@
 #Week 3
 #Q1
-download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv", destfile = "US2006_microdata_survey.csv")
-survey_data <- read.csv("US2006_microdata_survey.csv")
+download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv", destfile = "/Users/marcoie/Projects/WorkingArea/ddata/US2006_microdata_survey.csv")
+survey_data <- read.csv("/Users/marcoie/Projects/WorkingArea/ddata/US2006_microdata_survey.csv")
 vectorlogico <- with(survey_data, survey_data$ACR == 3 & survey_data$AGS ==6)
 which(vectorlogico)
 #Q2
 library(jpeg)
-download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fjeff.jpg",destfile = "Fjeff.jpg")
+download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fjeff.jpg",destfile = "/Users/marcoie/Projects/WorkingArea/ddata/Fjeff.jpg")
 jpegdata <- readJPEG("Fjeff.jpg",native=TRUE)
 quantile(x = jpegdata, probs = seq(0, 1, 0.1))
 
-download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv", destfile = "FGDP.csv")
-download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv", destfile = "FEDSTATS.csv")
+download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv", destfile = "/Users/marcoie/Projects/WorkingArea/ddata/FGDP.csv")
+download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv", destfile = "/Users/marcoie/Projects/WorkingArea/ddata/FEDSTATS.csv")
 FGDP = read.csv("FGDP.csv", skip = 4, stringsAsFactors = FALSE)
 FGDP.f <- filter(FGDP,as.integer(X.1) <= 190)
-FEDSTATS = read.csv("FEDSTATS.csv")
+FEDSTATS = read.csv("/Users/marcoie/Projects/WorkingArea/ddata/FEDSTATS.csv")
 resultado <- merge(FGDP, FEDSTATS, by.x = "X", by.y = "CountryCode")
 FGDP.a <- arrange(FGDP.f, desc(as.integer(X.1)))
 #Deal with the commas... on a number
