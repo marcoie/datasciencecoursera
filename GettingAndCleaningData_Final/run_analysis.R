@@ -44,6 +44,7 @@ experiment_data <- rbind(full_train, full_test)
 
 #Extracts only the measurements of mean and std for each experiment line
 selected_set <- as_tibble(cbind(experiment_data[,1:2], experiment_data[,grepl("mean",names(experiment_data))], experiment_data[,grepl("std",names(experiment_data))]))
+##selected_set <-experiment_data[,grepl("mean|std|subject|activity",colnames(experiment_data))]
 
 ##Create New TIDY set with "means" computed and grouped by Subject and activity and write to a new TEXT File
 new_tidy_tbl <- selected_set %>% group_by(subject_id, activity_name) %>% summarise_all(funs(mean, "mean",mean(.,na.rm=TRUE)))
