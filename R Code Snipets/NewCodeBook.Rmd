@@ -1,0 +1,31 @@
+---
+title: "Code Book"
+output: md_document
+---
+# Code Book 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This is a codebook for a derived data set from [Human Activity Recognition Using Smartphones Dataset Version 1.0](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+
+The derived data Set will Contain a sumarized version from both Train and Test sets together, that includes The SUbject Id, the Activity Description and the Averages of the Standard Deviation and Mean based measures from original dataset after grouping all individual test by Subject and Activity.
+
+## Basic Set Information
+
+The Dimensions of the resulting set is:
+```{r echo = FALSE}
+tds <- readr::read_delim("new_tidy_dataset.txt", " ",col_types = readr::cols(.default = readr::col_double(),subject_id = readr::col_integer(), activity_name = readr::col_character()))
+dplyr::dim_desc(tds)
+```
+
+## Variables Present
+
+Allvariables are of type double, with the excetion of Subject\_ID that is Integer and Activity\_Description that is a character string:
+
+```{r echo=FALSE}
+tds <- readr::read_delim("new_tidy_dataset.txt", " ",col_types = readr::cols(.default = readr::col_double(),subject_id = readr::col_integer(), activity_name = readr::col_character()))
+dimnames.data.frame(tds)[[2]]
+```
+
